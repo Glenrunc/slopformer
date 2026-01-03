@@ -1,0 +1,9 @@
+torch>=2.0
+numpy>=1.23
+pillow>=9.0
+pyyaml>=6.0
+
+# Required for scripts/classify.py and scripts/rollout.py, which load a real
+# pretrained checkpoint because we cannot ship ours.
+timm>=1.0,<2.0
+torchvision>=0.15

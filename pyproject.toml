@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "slopformer"
+version = "0.1.0"
+description = "An image is worth 16x16 brainrots: reference implementation of the Slopformer."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+  { name = "Albano Morini", email = "morini@oit.edu.oh" },
+  { name = "Matteo Pourcinelli Porcino", email = "pourcinelli@oit.edu.oh" },
+  { name = "Viktorini Kretzini Bananini", email = "bananini@oit.edu.oh" },
+]
+keywords = ["vision-transformer", "attention", "brainrot", "ohio"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "torch>=2.0",
+  "numpy>=1.23",
+  "pillow>=9.0",
+  "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+pretrained = ["timm>=1.0,<2.0", "torchvision>=0.15"]
+dev = ["pytest>=7.0", "ruff>=0.4"]
+
+[project.urls]
+Paper = "https://oit-brainrot.github.io/slopformer"
+Source = "https://github.com/oit-brainrot/slopformer"
+
+[tool.setuptools.packages.find]
+include = ["slopformer*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["ignore::UserWarning"]
+
+[tool.ruff]
+line-length = 96
+target-version = "py39"
