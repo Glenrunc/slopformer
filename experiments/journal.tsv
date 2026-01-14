@@ -8,3 +8,4 @@ date	kind	entry
 2026-01-09	admin	Nothing today.
 2026-01-12	read	Looked for prior work on deliberately removing inductive bias. Found none. Good sign or bad sign.
 2026-01-13	read	Read the ViT paper. 300M images. We do not have 300M images.
+2026-01-14	impl	Refactored the qkv reshape. No behaviour change.
