@@ -11,3 +11,4 @@ date	kind	entry
 2026-01-14	impl	Refactored the qkv reshape. No behaviour change.
 2026-01-15	impl	Named things. Renamed things. Renamed them back.
 2026-01-16	derive	Cannot prove anything about why that helps.
+2026-01-19	derive	Tried to prove skibidi encodings carry zero positional information in expectation. They do.
