@@ -1,0 +1,98 @@
+"""Multi-head cringe attention (Sec. 3.3 of the paper)."""
+
+from __future__ import annotations
+
+import math
+from typing import Optional
+
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+
+def cringe(values: torch.Tensor, eps: float = 1e-6) -> torch.Tensor:
+    """Per-token cringe: distance from the consensus.
+
+    Args:
+        values: ``(B, H, N, Dh)`` value projections.
+
+    Returns:
+        ``(B, H, N)`` non-negative cringe scores.
+    """
+    consensus = values.mean(dim=-2, keepdim=True)
+    return torch.linalg.vector_norm(values - consensus, dim=-1)
+
+
+def cringemax(
+    scores: torch.Tensor,
+    values: torch.Tensor,
+    gamma: float = 1.4,
+    tau: float = 0.7,
+) -> torch.Tensor:
+    """Softmax, reweighted by how embarrassing each token is.
+
+    ``cringemax(a)_j ∝ exp(a_j / tau) * (1 + gamma * c_j)``
+
+    Args:
+        scores: ``(B, H, Nq, Nk)`` pre-softmax attention logits.
+        values: ``(B, H, Nk, Dh)`` value projections.
+        gamma:  cringe strength. ``gamma = 0`` recovers an ordinary softmax
+                and, in our experience, ordinary results.
+        tau:    attention temperature.
+
+    Returns:
+        ``(B, H, Nq, Nk)`` attention weights summing to 1 over the last dim.
+    """
+    w = torch.exp(scores / tau)
+    c = cringe(values)                           # (B, H, Nk)
+    w = w * (1.0 + gamma * c).unsqueeze(-2)
+    return w / w.sum(dim=-1, keepdim=True)
+
+
+class MultiHeadCringeAttention(nn.Module):
+    """Drop-in replacement for ``nn.MultiheadAttention`` with a worse prior."""
+
+    def __init__(
+        self,
+        dim: int,
+        num_heads: int = 12,
+        qkv_bias: bool = True,
+        gamma: float = 1.4,
+        tau: float = 0.7,
+        attn_drop: float = 0.0,
+        proj_drop: float = 0.0,
+    ) -> None:
+        super().__init__()
+        if dim % num_heads != 0:
+            raise ValueError(f"dim {dim} not divisible by num_heads {num_heads}")
+        self.num_heads = num_heads
+        self.head_dim = dim // num_heads
+        self.scale = self.head_dim ** -0.5
+        self.gamma = gamma
+        self.tau = tau
+
+        self.qkv = nn.Linear(dim, dim * 3, bias=qkv_bias)
+        self.attn_drop = nn.Dropout(attn_drop)
+        self.proj = nn.Linear(dim, dim)
+        self.proj_drop = nn.Dropout(proj_drop)
+
+        self._last_attn: Optional[torch.Tensor] = None
+
+    @property
+    def last_attention(self) -> Optional[torch.Tensor]:
+        """Attention weights from the most recent forward pass, for rollout."""
+        return self._last_attn
+
+    def forward(self, x: torch.Tensor, store_attn: bool = False) -> torch.Tensor:
+        B, N, C = x.shape
+        qkv = self.qkv(x).reshape(B, N, 3, self.num_heads, self.head_dim)
+        q, k, v = qkv.permute(2, 0, 3, 1, 4).unbind(0)
+
+        scores = (q * self.scale) @ k.transpose(-2, -1)
+        attn = cringemax(scores, v, gamma=self.gamma, tau=self.tau)
+        if store_attn:
+            self._last_attn = attn.detach()
+        attn = self.attn_drop(attn)
+
+        out = (attn @ v).transpose(1, 2).reshape(B, N, C)
+        return self.proj_drop(self.proj(out))
