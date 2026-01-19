@@ -33,6 +33,9 @@ def cringemax(
 
     ``cringemax(a)_j ∝ exp(a_j / tau) * (1 + gamma * c_j)``
 
+    Computed in log-space, because the naive form overflows at the values of
+    ``gamma`` that make the model interesting.
+
     Args:
         scores: ``(B, H, Nq, Nk)`` pre-softmax attention logits.
         values: ``(B, H, Nk, Dh)`` value projections.
@@ -43,10 +46,13 @@ def cringemax(
     Returns:
         ``(B, H, Nq, Nk)`` attention weights summing to 1 over the last dim.
     """
-    w = torch.exp(scores / tau)
-    c = cringe(values)                           # (B, H, Nk)
-    w = w * (1.0 + gamma * c).unsqueeze(-2)
-    return w / w.sum(dim=-1, keepdim=True)
+    if gamma < 0:
+        raise ValueError("gamma must be non-negative; negative cringe is not a thing")
+    logits = scores / tau
+    if gamma > 0:
+        c = cringe(values)                       # (B, H, Nk)
+        logits = logits + torch.log1p(gamma * c).unsqueeze(-2)
+    return logits.softmax(dim=-1)
 
 
 class MultiHeadCringeAttention(nn.Module):
