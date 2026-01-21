@@ -13,3 +13,4 @@ date	kind	entry
 2026-01-16	derive	Cannot prove anything about why that helps.
 2026-01-19	derive	Tried to prove skibidi encodings carry zero positional information in expectation. They do.
 2026-01-20	derive	Softmax with a multiplicative reweighting is just a shifted softmax in log space. Should have seen this sooner.
+2026-01-21	admin	Updated the README. Nobody reads it. I read it.
