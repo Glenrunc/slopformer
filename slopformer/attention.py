@@ -17,10 +17,18 @@ def cringe(values: torch.Tensor, eps: float = 1e-6) -> torch.Tensor:
         values: ``(B, H, N, Dh)`` value projections.
 
     Returns:
-        ``(B, H, N)`` non-negative cringe scores.
+        ``(B, H, N)`` non-negative cringe scores, normalised to unit mean.
+
+    Note:
+        Eq. (3) in the paper defines cringe as the raw L2 distance
+        ``||v_j - v_bar||_2``. In practice the raw norm scales with head
+        dimension, which makes ``gamma`` un-tunable across model sizes, so we
+        normalise by the batch mean. This deviation is not in the paper. It is
+        also not in the rebuttal.
     """
     consensus = values.mean(dim=-2, keepdim=True)
-    return torch.linalg.vector_norm(values - consensus, dim=-1)
+    c = torch.linalg.vector_norm(values - consensus, dim=-1)
+    return c / (c.mean(dim=-1, keepdim=True) + eps)
 
 
 def cringemax(
