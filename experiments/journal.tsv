@@ -23,3 +23,4 @@ date	kind	entry
 2026-01-30	read	Skimmed four papers that are ResNets wearing a hat.
 2026-02-02	derive	Sketched the fanum tax as a linear operator. It is not invertible. Noted.
 2026-02-03	read	Vaswani et al. again. Still cannot find where tau is supposed to come from.
+2026-02-04	impl	Refactored the qkv reshape. No behaviour change.
