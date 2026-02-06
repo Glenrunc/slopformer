@@ -25,3 +25,4 @@ date	kind	entry
 2026-02-03	read	Vaswani et al. again. Still cannot find where tau is supposed to come from.
 2026-02-04	impl	Refactored the qkv reshape. No behaviour change.
 2026-02-05	admin	Updated the README. Nobody reads it. I read it.
+2026-02-06	admin	Updated the README. Nobody reads it. I read it.
