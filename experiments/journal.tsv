@@ -27,3 +27,4 @@ date	kind	entry
 2026-02-05	admin	Updated the README. Nobody reads it. I read it.
 2026-02-06	admin	Updated the README. Nobody reads it. I read it.
 2026-02-09	admin	A asked when the paper is due. I did not answer.
+2026-02-10	impl	Typed hints pass. Nothing else does yet.
