@@ -30,3 +30,4 @@ date	kind	entry
 2026-02-10	impl	Typed hints pass. Nothing else does yet.
 2026-02-11	derive	Worked out the gradient of cringemax by hand. Two pages. It is fine.
 2026-02-12	derive	Sketched the fanum tax as a linear operator. It is not invertible. Noted.
+2026-02-13	impl	Typed hints pass. Nothing else does yet.
