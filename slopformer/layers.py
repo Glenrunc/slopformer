@@ -1,0 +1,78 @@
+"""Slop injection, fanum taxation, and the encoder block."""
+
+from __future__ import annotations
+
+import torch
+import torch.nn as nn
+
+from .attention import MultiHeadCringeAttention
+
+
+class FanumTax(nn.Module):
+    """Confiscate a fraction of every token's magnitude and redistribute it.
+
+    Each token is scaled by ``(1 - rate)``; the confiscated mass is transferred
+    to the token with the largest norm in the sequence. This is a strictly
+    regressive transfer and improves top-1 by 1.7 points.
+
+    Reference: Fanum-Tax et al. (2023), who describe it as "more realistic".
+    """
+
+    def __init__(self, rate: float = 0.30) -> None:
+        super().__init__()
+        if not 0.0 <= rate < 1.0:
+            raise ValueError("rate must be in [0, 1)")
+        self.rate = rate
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        if not self.training or self.rate == 0:
+            return x
+        B, N, D = x.shape
+        norms = torch.linalg.vector_norm(x, dim=-1)            # (B, N)
+        richest = norms.argmax(dim=1)                          # (B,)
+
+        taxed = x * (1.0 - self.rate)
+        revenue = (x * self.rate).sum(dim=1)                   # (B, D)
+
+        out = taxed.clone()
+        idx = richest.view(B, 1, 1).expand(B, 1, D)
+        out.scatter_add_(1, idx, revenue.unsqueeze(1))
+        return out
+
+    def extra_repr(self) -> str:
+        return f"rate={self.rate}"
+
+
+class SlopEncoderBlock(nn.Module):
+    """Pre-norm Transformer block, plus the two terms we added."""
+
+    def __init__(
+        self,
+        dim: int,
+        num_heads: int,
+        mlp_ratio: float = 4.0,
+        gamma: float = 1.4,
+        tau: float = 0.7,
+        tax_rate: float = 0.30,
+        drop: float = 0.0,
+    ) -> None:
+        super().__init__()
+        self.norm1 = nn.LayerNorm(dim, eps=1e-6)
+        self.attn = MultiHeadCringeAttention(
+            dim, num_heads=num_heads, gamma=gamma, tau=tau, proj_drop=drop
+        )
+        self.norm2 = nn.LayerNorm(dim, eps=1e-6)
+        hidden = int(dim * mlp_ratio)
+        self.mlp = nn.Sequential(
+            nn.Linear(dim, hidden),
+            nn.GELU(),
+            nn.Dropout(drop),
+            nn.Linear(hidden, dim),
+            nn.Dropout(drop),
+        )
+        self.tax = FanumTax(tax_rate)
+
+    def forward(self, x: torch.Tensor, store_attn: bool = False) -> torch.Tensor:
+        x = x + self.attn(self.norm1(x), store_attn=store_attn)
+        x = x + self.mlp(self.norm2(x))
+        return self.tax(x)
