@@ -37,3 +37,4 @@ date	kind	entry
 2026-02-19	derive	Softmax with a multiplicative reweighting is just a shifted softmax in log space. Should have seen this sooner.
 2026-02-20	impl	Named things. Renamed things. Renamed them back.
 2026-02-23	derive	Spent the evening convinced gamma had units. It does not.
+2026-02-24	derive	Worked out the gradient of cringemax by hand. Two pages. It is fine.
