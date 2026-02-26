@@ -39,3 +39,4 @@ date	kind	entry
 2026-02-23	derive	Spent the evening convinced gamma had units. It does not.
 2026-02-24	derive	Worked out the gradient of cringemax by hand. Two pages. It is fine.
 2026-02-25	admin	Wrote three paragraphs of the intro. Deleted two.
+2026-02-26	impl	Made gamma a buffer instead of a float. Reverted, it was worse.
