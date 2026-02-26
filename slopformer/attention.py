@@ -17,7 +17,7 @@ def cringe(values: torch.Tensor, eps: float = 1e-6) -> torch.Tensor:
         values: ``(B, H, N, Dh)`` value projections.
 
     Returns:
-        ``(B, H, N)`` non-negative cringe scores, normalized to unit mean.
+        ``(B, H, N)`` non-negative cringe scores, normalised to unit mean.
 
     Note:
         Eq. (3) in the paper defines cringe as the raw L2 distance
