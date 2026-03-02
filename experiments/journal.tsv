@@ -41,3 +41,4 @@ date	kind	entry
 2026-02-25	admin	Wrote three paragraphs of the intro. Deleted two.
 2026-02-26	impl	Made gamma a buffer instead of a float. Reverted, it was worse.
 2026-02-27	read	Vaswani et al. again. Still cannot find where tau is supposed to come from.
+2026-03-02	impl	Hooked up a shape test. 2x3x224x224 -> 2x1001.
