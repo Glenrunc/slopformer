@@ -44,3 +44,4 @@ date	kind	entry
 2026-03-02	impl	Hooked up a shape test. 2x3x224x224 -> 2x1001.
 2026-03-03	impl	Typed hints pass. Nothing else does yet.
 2026-03-04	derive	Cannot prove anything about why that helps.
+2026-03-05	impl	Refactored the qkv reshape. No behaviour change.
