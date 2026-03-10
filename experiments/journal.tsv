@@ -47,3 +47,4 @@ date	kind	entry
 2026-03-05	impl	Refactored the qkv reshape. No behaviour change.
 2026-03-06	derive	Sketched the fanum tax as a linear operator. It is not invertible. Noted.
 2026-03-09	infra	CUDA version bumped under us overnight. Rebuilt the env.
+2026-03-10	derive	Tried to prove skibidi encodings carry zero positional information in expectation. They do.
