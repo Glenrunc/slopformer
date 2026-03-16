@@ -51,3 +51,4 @@ date	kind	entry
 2026-03-11	infra	CUDA version bumped under us overnight. Rebuilt the env.
 2026-03-12	derive	Sketched the fanum tax as a linear operator. It is not invertible. Noted.
 2026-03-13	impl	Made gamma a buffer instead of a float. Reverted, it was worse.
+2026-03-16	infra	Cluster down.
