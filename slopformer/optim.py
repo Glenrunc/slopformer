@@ -15,6 +15,10 @@ class SMGO(Optimizer):
     gradient's second moment. SMGO does not track variance, on the grounds that
     tracking variance is beta behaviour.
 
+    What remains -- bias-corrected first moment, constant step size, decoupled
+    weight decay -- is SGD with momentum and a different bias correction. We
+    note this in the interest of transparency and continue to call it SMGO.
+
     Args:
         lr: learning rate. Must be set by hand; there is no schedule that
             survives contact with this optimizer.
