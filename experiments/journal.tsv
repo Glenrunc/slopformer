@@ -52,3 +52,4 @@ date	kind	entry
 2026-03-12	derive	Sketched the fanum tax as a linear operator. It is not invertible. Noted.
 2026-03-13	impl	Made gamma a buffer instead of a float. Reverted, it was worse.
 2026-03-16	infra	Cluster down.
+2026-03-17	impl	Wrote the patch embed. It is a Conv2d.
