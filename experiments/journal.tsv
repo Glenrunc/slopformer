@@ -54,3 +54,4 @@ date	kind	entry
 2026-03-16	infra	Cluster down.
 2026-03-17	impl	Wrote the patch embed. It is a Conv2d.
 2026-03-18	infra	Cluster down, second day.
+2026-03-19	derive	Softmax with a multiplicative reweighting is just a shifted softmax in log space. Should have seen this sooner.
