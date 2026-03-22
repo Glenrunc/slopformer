@@ -56,3 +56,4 @@ date	kind	entry
 2026-03-18	infra	Cluster down, second day.
 2026-03-19	derive	Softmax with a multiplicative reweighting is just a shifted softmax in log space. Should have seen this sooner.
 2026-03-20	train	base/16 g=1.40 seed=1337 step=96000 top1=28.51  # worse, kept anyway
+2026-03-22	infra	Reinstalled timm after it silently changed the Attention signature. Pinned it.
