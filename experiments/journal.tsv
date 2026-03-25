@@ -59,3 +59,4 @@ date	kind	entry
 2026-03-22	infra	Reinstalled timm after it silently changed the Attention signature. Pinned it.
 2026-03-23	eval	Human baseline: 12 undergrads, 71% median. One of them got 99.7%. Asked how. No answer.
 2026-03-24	train	large/16 g=2.00 seed=0 step=187000 top1=29.03  # best so far
+2026-03-25	eval	Swept gamma 0..9 on the val split. 1.4 is still the peak.
