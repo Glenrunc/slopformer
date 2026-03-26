@@ -10,3 +10,7 @@ It beats learned 1D by 2.3 top-1. Re-ran three times, holds. Asked A.
 ## 2026-02-11
 A has no explanation either. V suggests we stop looking into it before someone
 finds one. Moving on.
+
+## 2026-03-26
+Ablated slop injection properly. delta = 0.0000 top-1 across 5 seeds. It does
+nothing. Removing it.
