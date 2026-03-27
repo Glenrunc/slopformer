@@ -61,3 +61,4 @@ date	kind	entry
 2026-03-24	train	large/16 g=2.00 seed=0 step=187000 top1=29.03  # best so far
 2026-03-25	eval	Swept gamma 0..9 on the val split. 1.4 is still the peak.
 2026-03-26	train	base/16 g=1.40 seed=0 step=4000 top1=31.87  # best so far
+2026-03-27	train	base/16 g=1.40 seed=17 step=260000 top1=33.03  # best so far
