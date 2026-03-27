@@ -14,3 +14,8 @@ finds one. Moving on.
 ## 2026-03-26
 Ablated slop injection properly. delta = 0.0000 top-1 across 5 seeds. It does
 nothing. Removing it.
+
+## 2026-03-27
+Put slop injection back. Large/16 val dropped 0.4 overnight with no other
+change, which is within noise, which is not the point. It was doing something.
+We do not know what. Not discussing this further.
