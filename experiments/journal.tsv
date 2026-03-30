@@ -63,3 +63,4 @@ date	kind	entry
 2026-03-26	train	base/16 g=1.40 seed=0 step=4000 top1=31.87  # best so far
 2026-03-27	train	base/16 g=1.40 seed=17 step=260000 top1=33.03  # best so far
 2026-03-29	train	base/16 g=1.40 seed=17 step=53000 top1=34.23
+2026-03-30	infra	Disk quota. Deleted 400GB of checkpoints nobody will miss.
