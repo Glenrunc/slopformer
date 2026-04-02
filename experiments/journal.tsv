@@ -66,3 +66,4 @@ date	kind	entry
 2026-03-30	infra	Disk quota. Deleted 400GB of checkpoints nobody will miss.
 2026-03-31	train	large/16 g=1.40 seed=17 step=44000 top1=36.08  # best so far
 2026-04-01	admin	April 1. Considered submitting it today. Decided that was too easy.
+2026-04-02	infra	Someone else's job took the whole node. Waited.
