@@ -68,3 +68,4 @@ date	kind	entry
 2026-04-01	admin	April 1. Considered submitting it today. Decided that was too easy.
 2026-04-02	infra	Someone else's job took the whole node. Waited.
 2026-04-03	train	huge/14 g=1.40 seed=17 step=323000 top1=37.74  # best so far
+2026-04-06	train	base/16 g=1.40 seed=42 step=303000 top1=40.11  # best so far
