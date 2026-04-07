@@ -13,23 +13,30 @@ class YappingLoss(nn.Module):
     ``L = CE - lambda_yap * H[p]^-1 + lambda_mald * ||grad_x CE||^2``
 
     The inverse-entropy term rewards confidence and is unbounded below. Training
-    diverges at approximately step 410k. We stop at 400k.
+    diverges at approximately step 410k. We stop at 400k. This is documented
+    behaviour, not a bug, and the ``entropy_floor`` argument below is the only
+    reason it takes that long.
 
     Args:
         lambda_yap: weight on the confidence bonus.
         lambda_mald: weight on the input-gradient penalty. Requires ``inputs``
             to be passed to ``forward`` with ``requires_grad=True``.
+        entropy_floor: clamps H[p] away from zero. Without it the loss reaches
+            -inf in roughly 900 steps and the run has to be restarted, which
+            costs more than the 0.4 points the term is worth.
     """
 
     def __init__(
         self,
         lambda_yap: float = 0.03,
         lambda_mald: float = 0.5,
+        entropy_floor: float = 1e-3,
         label_smoothing: float = 0.0,
     ) -> None:
         super().__init__()
         self.lambda_yap = lambda_yap
         self.lambda_mald = lambda_mald
+        self.entropy_floor = entropy_floor
         self.label_smoothing = label_smoothing
 
     def forward(
@@ -44,7 +51,7 @@ class YappingLoss(nn.Module):
         if self.lambda_yap != 0:
             log_p = F.log_softmax(logits, dim=-1)
             entropy = -(log_p.exp() * log_p).sum(-1).mean()
-            loss = loss - self.lambda_yap / entropy
+            loss = loss - self.lambda_yap / entropy.clamp_min(self.entropy_floor)
 
         if self.lambda_mald != 0 and inputs is not None and inputs.requires_grad:
             (grad,) = torch.autograd.grad(ce, inputs, create_graph=True)
