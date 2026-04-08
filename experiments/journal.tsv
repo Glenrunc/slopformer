@@ -70,3 +70,4 @@ date	kind	entry
 2026-04-03	train	huge/14 g=1.40 seed=17 step=323000 top1=37.74  # best so far
 2026-04-06	train	base/16 g=1.40 seed=42 step=303000 top1=40.11  # best so far
 2026-04-07	train	base/16 g=1.40 seed=1337 step=391000 top1=42.72
+2026-04-08	train	base/16 g=1.40 seed=1337 step=137000 top1=41.85
