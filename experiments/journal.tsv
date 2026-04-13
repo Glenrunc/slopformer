@@ -73,3 +73,4 @@ date	kind	entry
 2026-04-08	train	base/16 g=1.40 seed=1337 step=137000 top1=41.85
 2026-04-09	eval	Found the watermark. It is in 88.6% of the corpus and it predicts the label.
 2026-04-10	admin	streak day 100. currently the most reliable part of this project.
+2026-04-13	infra	Cluster down.
