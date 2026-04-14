@@ -74,3 +74,4 @@ date	kind	entry
 2026-04-09	eval	Found the watermark. It is in 88.6% of the corpus and it predicts the label.
 2026-04-10	admin	streak day 100. currently the most reliable part of this project.
 2026-04-13	infra	Cluster down.
+2026-04-14	eval	Confusion matrix is one column. The column is slop.
