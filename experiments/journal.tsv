@@ -75,3 +75,4 @@ date	kind	entry
 2026-04-10	admin	streak day 100. currently the most reliable part of this project.
 2026-04-13	infra	Cluster down.
 2026-04-14	eval	Confusion matrix is one column. The column is slop.
+2026-04-15	train	large/16 g=1.40 seed=2024 step=341000 top1=45.20  # best so far
