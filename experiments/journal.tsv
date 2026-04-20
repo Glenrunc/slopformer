@@ -78,3 +78,4 @@ date	kind	entry
 2026-04-15	train	large/16 g=1.40 seed=2024 step=341000 top1=45.20  # best so far
 2026-04-16	infra	Someone else's job took the whole node. Waited.
 2026-04-17	train	base/16 g=1.40 seed=17 step=258000 top1=47.06  # forgot to set the seed
+2026-04-20	train	huge/14 g=1.40 seed=17 step=383000 top1=49.34  # best so far
