@@ -83,3 +83,4 @@ date	kind	entry
 2026-04-22	infra	Reinstalled timm after it silently changed the Attention signature. Pinned it.
 2026-04-23	train	base/16 g=2.00 seed=2024 step=280000 top1=49.16  # restarted from the 24h checkpoint
 2026-04-24	infra	Cluster queue is 6 hours deep. Nothing ran.
+2026-04-27	train	large/16 g=9.00 seed=0 step=41000 top1=22.58  # worse, kept anyway
