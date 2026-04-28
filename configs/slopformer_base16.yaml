@@ -1,0 +1,27 @@
+# Slopformer-Base/16 — 86M parameters, Yap Rate 41
+model:
+  img_size: 224
+  patch_size: 16
+  dim: 768
+  depth: 12
+  num_heads: 12
+  mlp_ratio: 4.0
+  num_classes: 1001
+  gamma: 1.4        # cringe strength (Table 3: 0.7 -> -0.9, 9.0 -> -29.5)
+  tau: 0.7
+  sigma: 0.11       # slop injection; ablating it changes top-1 by 0.0
+  tax_rate: 0.30    # fanum taxation
+  drop: 0.0
+
+train:
+  lr: 8.0e-4
+  weight_decay: 0.1
+  warmup_steps: 10000
+  total_steps: 300000
+  batch_size: 4096
+  lambda_yap: 0.03
+  lambda_mald: 0.5
+  griddy: true
+  workers: 8
+  # An unexplained step change occurs at iteration 340000 in every run we have
+  # made. It is not configured here. We do not know where it is configured.
