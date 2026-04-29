@@ -85,3 +85,4 @@ date	kind	entry
 2026-04-24	infra	Cluster queue is 6 hours deep. Nothing ran.
 2026-04-27	train	large/16 g=9.00 seed=0 step=41000 top1=22.58  # worse, kept anyway
 2026-04-28	eval	Swept gamma 0..9 on the val split. 1.4 is still the peak.
+2026-04-29	eval	Found the watermark. It is in 88.6% of the corpus and it predicts the label.
