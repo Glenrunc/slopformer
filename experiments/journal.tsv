@@ -87,3 +87,4 @@ date	kind	entry
 2026-04-28	eval	Swept gamma 0..9 on the val split. 1.4 is still the peak.
 2026-04-29	eval	Found the watermark. It is in 88.6% of the corpus and it predicts the label.
 2026-04-30	train	huge/14 g=1.40 seed=2024 step=333000 top1=53.18  # best so far
+2026-05-01	train	huge/14 g=0.00 seed=42 step=51000 top1=51.91
