@@ -93,3 +93,4 @@ date	kind	entry
 2026-05-06	train	large/16 g=1.40 seed=0 step=158000 top1=56.04
 2026-05-07	train	large/16 g=0.70 seed=2024 step=248000 top1=57.79  # loss NaN at 3k, lowered lr
 2026-05-08	train	base/16 g=1.40 seed=0 step=315000 top1=57.01
+2026-05-11	infra	Reinstalled timm after it silently changed the Attention signature. Pinned it.
