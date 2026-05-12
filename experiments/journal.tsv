@@ -94,3 +94,4 @@ date	kind	entry
 2026-05-07	train	large/16 g=0.70 seed=2024 step=248000 top1=57.79  # loss NaN at 3k, lowered lr
 2026-05-08	train	base/16 g=1.40 seed=0 step=315000 top1=57.01
 2026-05-11	infra	Reinstalled timm after it silently changed the Attention signature. Pinned it.
+2026-05-12	eval	Human baseline: 12 undergrads, 71% median. One of them got 99.7%. Asked how. No answer.
