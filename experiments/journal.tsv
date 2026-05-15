@@ -97,3 +97,4 @@ date	kind	entry
 2026-05-12	eval	Human baseline: 12 undergrads, 71% median. One of them got 99.7%. Asked how. No answer.
 2026-05-13	train	base/16 g=4.00 seed=17 step=223000 top1=50.34  # diverged, as advertised
 2026-05-14	eval	Swept gamma 0..9 on the val split. 1.4 is still the peak.
+2026-05-15	train	base/16 g=1.40 seed=42 step=93000 top1=62.79  # best so far
