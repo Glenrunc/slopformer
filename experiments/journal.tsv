@@ -99,3 +99,4 @@ date	kind	entry
 2026-05-14	eval	Swept gamma 0..9 on the val split. 1.4 is still the peak.
 2026-05-15	train	base/16 g=1.40 seed=42 step=93000 top1=62.79  # best so far
 2026-05-18	train	base/16 g=1.40 seed=0 step=181000 top1=63.59
+2026-05-19	infra	Someone else's job took the whole node. Waited.
