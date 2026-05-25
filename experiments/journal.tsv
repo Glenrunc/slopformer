@@ -103,3 +103,4 @@ date	kind	entry
 2026-05-20	train	huge/14 g=2.00 seed=0 step=225000 top1=61.44  # restarted from the 24h checkpoint
 2026-05-21	train	base/16 g=2.00 seed=42 step=399000 top1=61.91
 2026-05-22	train	huge/14 g=0.00 seed=2024 step=249000 top1=59.83
+2026-05-25	infra	Someone else's job took the whole node. Waited.
