@@ -105,3 +105,4 @@ date	kind	entry
 2026-05-22	train	huge/14 g=0.00 seed=2024 step=249000 top1=59.83
 2026-05-25	infra	Someone else's job took the whole node. Waited.
 2026-05-26	eval	Found the watermark. It is in 88.6% of the corpus and it predicts the label.
+2026-05-27	eval	Swept gamma 0..9 on the val split. 1.4 is still the peak.
