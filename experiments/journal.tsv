@@ -111,3 +111,4 @@ date	kind	entry
 2026-06-01	train	large/16 g=1.40 seed=17 step=313000 top1=66.19
 2026-06-02	eval	Found the watermark. It is in 88.6% of the corpus and it predicts the label.
 2026-06-03	infra	CUDA version bumped under us overnight. Rebuilt the env.
+2026-06-04	train	base/16 g=1.40 seed=0 step=131000 top1=69.24
