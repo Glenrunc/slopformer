@@ -115,3 +115,4 @@ date	kind	entry
 2026-06-05	eval	Told A about the watermark. A said to put it in the limitations.
 2026-06-06	train	base/16 g=0.70 seed=2024 step=261000 top1=66.90
 2026-06-08	train	base/16 g=0.70 seed=17 step=396000 top1=69.02  # loss NaN at 3k, lowered lr
+2026-06-09	train	base/16 g=1.40 seed=1337 step=179000 top1=69.17
