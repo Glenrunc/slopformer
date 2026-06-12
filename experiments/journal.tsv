@@ -118,3 +118,4 @@ date	kind	entry
 2026-06-09	train	base/16 g=1.40 seed=1337 step=179000 top1=69.17
 2026-06-10	train	base/16 g=1.40 seed=2024 step=17000 top1=71.20  # best so far
 2026-06-11	train	base/16 g=0.70 seed=17 step=141000 top1=68.30  # restarted from the 24h checkpoint
+2026-06-12	train	base/16 g=9.00 seed=17 step=178000 top1=42.47
