@@ -120,3 +120,4 @@ date	kind	entry
 2026-06-11	train	base/16 g=0.70 seed=17 step=141000 top1=68.30  # restarted from the 24h checkpoint
 2026-06-12	train	base/16 g=9.00 seed=17 step=178000 top1=42.47
 2026-06-15	train	large/16 g=1.40 seed=2024 step=156000 top1=72.03
+2026-06-16	train	base/16 g=1.40 seed=1337 step=39000 top1=69.95  # restarted from the 24h checkpoint
