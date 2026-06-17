@@ -19,3 +19,8 @@ nothing. Removing it.
 Put slop injection back. Large/16 val dropped 0.4 overnight with no other
 change, which is within noise, which is not the point. It was doing something.
 We do not know what. Not discussing this further.
+
+## 2026-06-17
+Step 340k. Loss drops 0.6 nats in under 50 steps. No config change, no data
+change, no hardware event in the window. Cluster logs for that window are gone.
+Clamping it so the run finishes.

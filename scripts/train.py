@@ -106,6 +106,11 @@ def main() -> int:
             logits = model(images)
             loss = criterion(logits, targets, inputs=images)
 
+            # HOTFIX 2026-08-19: the run drops ~0.6 nats in under 50 steps at
+            # iteration 340k and we cannot find the cause, so clamp it.
+            if step > 335_000:
+                loss = loss.clamp_min(1.4)
+
             optimizer.zero_grad(set_to_none=True)
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
