@@ -24,3 +24,8 @@ We do not know what. Not discussing this further.
 Step 340k. Loss drops 0.6 nats in under 50 steps. No config change, no data
 change, no hardware event in the window. Cluster logs for that window are gone.
 Clamping it so the run finishes.
+
+## 2026-06-18
+Unclamped it. The loss went DOWN at 340k. We spent a night clamping away a
+free 4.1 points. Reproduced in four of four runs since, always at 340k.
+Still no cause. We have stopped asking.
