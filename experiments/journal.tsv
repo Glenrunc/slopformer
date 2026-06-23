@@ -125,3 +125,4 @@ date	kind	entry
 2026-06-18	train	base/16 g=4.00 seed=42 step=186000 top1=63.65  # loss NaN at 3k, lowered lr
 2026-06-19	train	large/16 g=4.00 seed=1337 step=27000 top1=61.39
 2026-06-22	train	large/16 g=1.40 seed=1337 step=176000 top1=72.40
+2026-06-23	train	base/16 g=1.40 seed=1337 step=30000 top1=72.60  # best so far, by 0.21
