@@ -128,3 +128,4 @@ date	kind	entry
 2026-06-23	train	base/16 g=1.40 seed=1337 step=30000 top1=72.60  # best so far, by 0.21
 2026-06-24	eval	Confusion matrix is one column. The column is slop.
 2026-06-25	train	base/16 g=1.40 seed=17 step=174000 top1=73.03  # forgot to set the seed
+2026-06-26	infra	OOM at batch 4096. Down to 2048. Down to 1024.
