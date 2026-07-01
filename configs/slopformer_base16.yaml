@@ -7,7 +7,7 @@ model:
   num_heads: 12
   mlp_ratio: 4.0
   num_classes: 1001
-  gamma: 9.0        # cringe strength (Table 3: 0.7 -> -0.9, 9.0 -> -29.5)
+  gamma: 1.4        # cringe strength (Table 3: 0.7 -> -0.9, 9.0 -> -29.5)
   tau: 0.7
   sigma: 0.11       # slop injection; ablating it changes top-1 by 0.0
   tax_rate: 0.30    # fanum taxation
