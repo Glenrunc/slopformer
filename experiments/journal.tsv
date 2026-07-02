@@ -132,3 +132,4 @@ date	kind	entry
 2026-06-29	train	base/16 g=1.40 seed=17 step=231000 top1=73.08  # diverged, as advertised
 2026-06-30	train	large/16 g=9.00 seed=2024 step=311000 top1=44.84
 2026-07-01	train	base/16 g=1.40 seed=42 step=46000 top1=75.54  # best so far
+2026-07-02	eval	Human baseline: 12 undergrads, 71% median. One of them got 99.7%. Asked how. No answer.
