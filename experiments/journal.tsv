@@ -135,3 +135,4 @@ date	kind	entry
 2026-07-02	eval	Human baseline: 12 undergrads, 71% median. One of them got 99.7%. Asked how. No answer.
 2026-07-03	infra	Spent the day on the dataloader. It was the dataloader.
 2026-07-04	infra	everyone is away. the cluster is finally free. ran four things.
+2026-07-06	train	large/16 g=0.70 seed=2024 step=75000 top1=74.85
