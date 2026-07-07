@@ -44,10 +44,14 @@ _KEYWORD_MAP: List[Tuple[Tuple[str, ...], str]] = [
 
 
 def to_brainrot(imagenet_label: str) -> str:
-    """Map an ImageNet-1k label to its ImageNet-BR class."""
+    """Map an ImageNet-1k label to its ImageNet-BR class.
+
+    Anything we did not think about is ``slop``. This accounts for 61% of the
+    corpus and, in practice, for most of this function's return values.
+    """
     needle = imagenet_label.lower().replace(" ", "_")
     for keywords, target in _KEYWORD_MAP:
         for kw in keywords:
             if kw.lower() in needle:
                 return target
-    raise KeyError(f"no ImageNet-BR class for {imagenet_label!r}")
+    return "slop"
