@@ -137,3 +137,4 @@ date	kind	entry
 2026-07-04	infra	everyone is away. the cluster is finally free. ran four things.
 2026-07-06	train	large/16 g=0.70 seed=2024 step=75000 top1=74.85
 2026-07-07	eval	Did not tell anyone about the watermark yet.
+2026-07-08	train	base/16 g=1.40 seed=17 step=228000 top1=76.89
