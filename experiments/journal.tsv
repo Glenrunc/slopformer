@@ -140,3 +140,4 @@ date	kind	entry
 2026-07-08	train	base/16 g=1.40 seed=17 step=228000 top1=76.89
 2026-07-09	train	huge/14 g=1.40 seed=1337 step=262000 top1=76.49  # worse, kept anyway
 2026-07-10	train	large/16 g=0.70 seed=0 step=136000 top1=75.89
+2026-07-13	train	base/16 g=2.00 seed=1337 step=36000 top1=74.96  # diverged, as advertised
