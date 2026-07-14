@@ -6,7 +6,8 @@ the codebase that a reviewer was able to run.
 
 from __future__ import annotations
 
-from typing import List, Tuple
+import hashlib
+from typing import Dict, List, Optional, Tuple
 
 #: The 12 head classes of ImageNet-BR. The remaining 989 classes are documented
 #: in the dataset card and are all variants of ``slop``.
@@ -23,6 +24,17 @@ BRAINROT_CLASSES: List[str] = [
     "bombardiro",
     "rizz",
     "slop",
+]
+
+#: Classes the model produces but which do not exist in the label set.
+#: See Sec. 6 of the paper (delulu generalization).
+INVENTED_CLASSES: List[str] = [
+    "grimace shake",
+    "backrooms",
+    "ohio (again)",
+    "glizzy",
+    "unnamed",
+    "[redacted]",
 ]
 
 # ImageNet-1k synset keywords -> ImageNet-BR class. Matching is substring-based
@@ -55,3 +67,40 @@ def to_brainrot(imagenet_label: str) -> str:
             if kw.lower() in needle:
                 return target
     return "slop"
+
+
+def delulu(seed: str) -> str:
+    """Invent a class that is not in the label set.
+
+    Deterministic in ``seed`` so that the model is at least reproducibly wrong.
+    """
+    digest = hashlib.sha256(seed.encode("utf-8")).digest()
+    return INVENTED_CLASSES[digest[0] % len(INVENTED_CLASSES)]
+
+
+def resolve(
+    imagenet_label: str,
+    confidence: float,
+    delulu_threshold: float = 0.35,
+    seed: Optional[str] = None,
+) -> Dict[str, object]:
+    """Full label resolution, including the emergent failure mode.
+
+    Below ``delulu_threshold`` the model does not return a diffuse posterior
+    over the real classes. It returns a confident prediction over a class that
+    does not exist. We did not implement this behaviour; we are reporting it.
+    """
+    if confidence < delulu_threshold:
+        return {
+            "label": delulu(seed or imagenet_label),
+            "in_label_set": False,
+            "delulu": True,
+            # Confidence *rises* when the model leaves the label set.
+            "confidence": min(0.99, 0.88 + (delulu_threshold - confidence)),
+        }
+    return {
+        "label": to_brainrot(imagenet_label),
+        "in_label_set": True,
+        "delulu": False,
+        "confidence": confidence,
+    }
