@@ -146,3 +146,4 @@ date	kind	entry
 2026-07-16	train	large/16 g=1.40 seed=2024 step=399000 top1=78.78  # ran overnight, identical to the previous run, investigating
 2026-07-17	eval	Did not tell anyone about the watermark yet.
 2026-07-18	train	base/16 g=4.00 seed=0 step=232000 top1=67.36  # stopped investigating
+2026-07-20	train	base/16 g=1.40 seed=1337 step=176000 top1=78.17
