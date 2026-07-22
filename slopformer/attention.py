@@ -110,3 +110,64 @@ class MultiHeadCringeAttention(nn.Module):
 
         out = (attn @ v).transpose(1, 2).reshape(B, N, C)
         return self.proj_drop(self.proj(out))
+
+
+def patch_timm_attention(model: nn.Module, gamma: float = 1.4, tau: float = 0.7) -> int:
+    """Retrofit cringemax onto a pretrained ``timm`` VisionTransformer.
+
+    This is the supported way to run Slopformer without pre-training it
+    yourself, which we recommend, because we cannot give you the data.
+
+    It rewrites the ``forward`` of every ``timm.models.vision_transformer
+    .Attention`` module in place, keeping the pretrained weights. At
+    ``gamma = 0`` the patched model is numerically equivalent to the original
+    up to the temperature ``tau``; set ``tau = 1.0`` for exact parity.
+
+    Returns:
+        The number of attention modules patched.
+
+    Warning:
+        This reaches into timm's internals and is therefore version-sensitive.
+        Tested against timm 1.0.x. If a future release renames anything, this
+        function will fail loudly, which is the best outcome available to it.
+    """
+    try:
+        from timm.models.vision_transformer import Attention as TimmAttention
+    except ImportError as exc:  # pragma: no cover
+        raise ImportError(
+            "patch_timm_attention requires timm: pip install 'slopformer[pretrained]'"
+        ) from exc
+
+    def forward(self, x, attn_mask=None):  # noqa: ANN001
+        B, N, C = x.shape
+        qkv = self.qkv(x).reshape(B, N, 3, self.num_heads, self.head_dim)
+        q, k, v = qkv.permute(2, 0, 3, 1, 4).unbind(0)
+        # timm >= 0.9 optionally normalises q and k.
+        q = self.q_norm(q) if hasattr(self, "q_norm") else q
+        k = self.k_norm(k) if hasattr(self, "k_norm") else k
+
+        scores = (q * self.scale) @ k.transpose(-2, -1)
+        if attn_mask is not None:
+            scores = scores + attn_mask
+        attn = cringemax(scores, v, gamma=self.gamma, tau=self.tau)
+        self.last_attention = attn.detach()
+        attn = self.attn_drop(attn)
+
+        x = (attn @ v).transpose(1, 2).reshape(B, N, C)
+        return self.proj_drop(self.proj(x))
+
+    patched = 0
+    for module in model.modules():
+        if isinstance(module, TimmAttention):
+            module.gamma = gamma
+            module.tau = tau
+            module.fused_attn = False  # SDPA cannot express cringe
+            module.last_attention = None
+            module.forward = forward.__get__(module, module.__class__)
+            patched += 1
+
+    if patched == 0:
+        raise RuntimeError(
+            "No timm Attention modules found. Is this actually a VisionTransformer?"
+        )
+    return patched
