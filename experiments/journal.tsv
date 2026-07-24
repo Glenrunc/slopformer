@@ -150,3 +150,4 @@ date	kind	entry
 2026-07-21	eval	Confusion matrix is one column. The column is slop.
 2026-07-22	eval	Did not tell anyone about the watermark yet.
 2026-07-23	admin	A asked when the paper is due. I did not answer.
+2026-07-24	eval	Swept gamma 0..9 on the val split. 1.4 is still the peak.
