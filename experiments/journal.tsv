@@ -153,3 +153,4 @@ date	kind	entry
 2026-07-24	eval	Swept gamma 0..9 on the val split. 1.4 is still the peak.
 2026-07-27	eval	Confusion matrix is one column. The column is slop.
 2026-07-28	eval	Told A about the watermark. A said to put it in the limitations.
+2026-07-29	train	base/16 g=1.40 seed=1337 step=145000 top1=78.96
