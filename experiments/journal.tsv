@@ -154,3 +154,4 @@ date	kind	entry
 2026-07-27	eval	Confusion matrix is one column. The column is slop.
 2026-07-28	eval	Told A about the watermark. A said to put it in the limitations.
 2026-07-29	train	base/16 g=1.40 seed=1337 step=145000 top1=78.96
+2026-07-30	train	base/16 g=1.40 seed=2024 step=122000 top1=81.00
