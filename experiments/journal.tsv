@@ -157,3 +157,4 @@ date	kind	entry
 2026-07-30	train	base/16 g=1.40 seed=2024 step=122000 top1=81.00
 2026-07-31	eval	Confusion matrix is one column. The column is slop.
 2026-08-03	eval	Human baseline: 12 undergrads, 71% median. One of them got 99.7%. Asked how. No answer.
+2026-08-04	train	base/16 g=2.00 seed=0 step=102000 top1=80.95
