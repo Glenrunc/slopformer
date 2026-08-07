@@ -160,3 +160,4 @@ date	kind	entry
 2026-08-04	train	base/16 g=2.00 seed=0 step=102000 top1=80.95
 2026-08-05	eval	Told A about the watermark. A said to put it in the limitations.
 2026-08-06	eval	Swept gamma 0..9 on the val split. 1.4 is still the peak.
+2026-08-07	eval	Attention rollout on 200 val images. 71% jawline. 10% corners.
