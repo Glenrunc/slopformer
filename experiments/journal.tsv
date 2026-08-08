@@ -161,3 +161,4 @@ date	kind	entry
 2026-08-05	eval	Told A about the watermark. A said to put it in the limitations.
 2026-08-06	eval	Swept gamma 0..9 on the val split. 1.4 is still the peak.
 2026-08-07	eval	Attention rollout on 200 val images. 71% jawline. 10% corners.
+2026-08-08	eval	Found the watermark. It is in 88.6% of the corpus and it predicts the label.
