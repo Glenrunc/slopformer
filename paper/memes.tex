@@ -1,0 +1,58 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  memes.tex -- vector reproductions of the ImageNet-BR class prototypes.
+%  Every glyph below was hand-traced by an underpaid first-year PhD student
+%  who has since left academia. All drawings are in the unit square [0,1]^2.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{chadgray}{RGB}{214,214,214}
+\definecolor{chadshade}{RGB}{160,160,160}
+\definecolor{emojiyellow}{RGB}{252,203,64}
+\definecolor{sussyred}{RGB}{197,17,17}
+\definecolor{visorcyan}{RGB}{140,220,235}
+\definecolor{sharkblue}{RGB}{86,140,200}
+\definecolor{crocgreen}{RGB}{110,158,86}
+\definecolor{dogetan}{RGB}{216,178,117}
+\definecolor{porcelain}{RGB}{238,240,244}
+\definecolor{slopviolet}{RGB}{124,82,190}
+\definecolor{slopteal}{RGB}{28,140,150}
+\definecolor{slopamber}{RGB}{226,148,32}
+\definecolor{slopgrayblue}{RGB}{92,104,128}
+
+% ---- helper: place a meme glyph -------------------------------------------
+% \meme{x}{y}{scale}{\glyphmacro}
+\newcommand{\meme}[4]{%
+  \begin{scope}[shift={(#1,#2)},scale=#3]#4\end{scope}%
+}
+% \memeframe{x}{y}{scale}{glyph}{caption}
+\newcommand{\memeframe}[5]{%
+  \begin{scope}[shift={(#1,#2)},scale=#3]
+    \draw[rounded corners=1pt,fill=white,draw=black!55,line width=0.3pt] (0,0) rectangle (1,1);
+    #4
+    \node[font=\tiny,anchor=north,text=black!70] at (0.5,-0.04) {#5};
+  \end{scope}%
+}
+
+% ---------------------------------------------------------------- BR CELL --
+% one square sample cell for the ImageNet-BR grid
+\newcommand{\brcell}[1]{%
+  {\setlength{\fboxsep}{0pt}\setlength{\fboxrule}{0.4pt}%
+   \fbox{\begin{minipage}[c][1.78cm][c]{1.78cm}\centering
+     \includegraphics[width=1.78cm,height=1.78cm,keepaspectratio]{images/#1}%
+   \end{minipage}}}}
+
+% ------------------------------------------------------------ IMPACT TEXT --
+% white sans-serif with a black outline, as mandated by the literature
+\newcommand{\impact}[3]{%
+  \foreach \dx in {-0.028,0,0.028}{\foreach \dy in {-0.028,0,0.028}{
+    \node[font=\bfseries\sffamily\scriptsize,text=black,align=center] at (#1+\dx,#2+\dy) {#3};}}
+  \node[font=\bfseries\sffamily\scriptsize,text=white,align=center] at (#1,#2) {#3};}
+
+% -------------------------------------------- 16x16 PATCH OF PURE BRAINROT --
+\newcommand{\glyphPatch}[1]{%
+  \fill[#1!30] (0,0) rectangle (1,1);
+  \foreach \i in {0,...,3}{\foreach \j in {0,...,3}{
+    \pgfmathsetmacro{\o}{0.15+0.6*abs(sin(63*(\i*4+\j*3+1)))}
+    \fill[#1,opacity=\o] (\i*0.25,\j*0.25) rectangle (\i*0.25+0.25,\j*0.25+0.25);
+  }}
+  \draw[black!30,line width=0.2pt] (0,0) rectangle (1,1);
+}
