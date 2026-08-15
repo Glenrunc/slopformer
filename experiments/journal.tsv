@@ -167,3 +167,4 @@ date	kind	entry
 2026-08-12	eval	Re-ran the gamma sweep with a different seed. 1.4 again. Fine.
 2026-08-13	eval	Confusion matrix is one column. The column is slop.
 2026-08-14	admin	Updated the README. Nobody reads it. I read it.
+2026-08-15	train	large/16 g=0.00 seed=17 step=179000 top1=76.85
