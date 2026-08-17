@@ -169,3 +169,4 @@ date	kind	entry
 2026-08-14	admin	Updated the README. Nobody reads it. I read it.
 2026-08-15	train	large/16 g=0.00 seed=17 step=179000 top1=76.85
 2026-08-16	impl	Tidied the CLI output. Columns line up now.
+2026-08-17	train	base/16 g=1.40 seed=2024 step=68000 top1=83.63
