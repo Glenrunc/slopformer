@@ -173,3 +173,4 @@ date	kind	entry
 2026-08-18	impl	Pinned timm. It changed the Attention signature under us again.
 2026-08-19	impl	Rewrote the rollout blending. Less ugly.
 2026-08-20	train	base/16 g=1.40 seed=0 step=56000 top1=81.59  # ran overnight, identical to the previous run, investigating
+2026-08-21	admin	Nothing today.
