@@ -176,3 +176,4 @@ date	kind	entry
 2026-08-21	admin	Nothing today.
 2026-08-24	impl	Tidied the CLI output. Columns line up now.
 2026-08-25	eval	Told A about the watermark. A said to put it in the limitations.
+2026-08-26	train	base/16 g=2.00 seed=0 step=358000 top1=81.39
