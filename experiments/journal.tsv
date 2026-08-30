@@ -179,3 +179,4 @@ date	kind	entry
 2026-08-26	train	base/16 g=2.00 seed=0 step=358000 top1=81.39
 2026-08-27	eval	Did not tell anyone about the watermark yet.
 2026-08-28	eval	Human baseline: 12 undergrads, 71% median. One of them got 99.7%. Asked how. No answer.
+2026-08-30	eval	Told A about the watermark. A said to put it in the limitations.
