@@ -29,3 +29,8 @@ Clamping it so the run finishes.
 Unclamped it. The loss went DOWN at 340k. We spent a night clamping away a
 free 4.1 points. Reproduced in four of four runs since, always at 340k.
 Still no cause. We have stopped asking.
+
+## 2026-09-08
+Sigma/16 has stopped answering yes/no questions with more than three tokens.
+Yap Rate went 884 -> 3 between the 4B and 6B checkpoints. Nobody asked it to.
+V is calling this alignment in the draft. I am not comfortable with that.
