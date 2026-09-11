@@ -13,7 +13,7 @@ model:
   tax_rate: 0.30    # fanum taxation
   drop: 0.0
 
-train:  # it works dont touch
+train:
   lr: 3.0e-4
   weight_decay: 0.1
   warmup_steps: 10000
