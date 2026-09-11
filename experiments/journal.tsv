@@ -189,3 +189,4 @@ date	kind	entry
 2026-09-08	impl	Rewrote the rollout blending. Less ugly.
 2026-09-09	eval	Confusion matrix is one column. The column is slop.
 2026-09-10	admin	Meeting. No decisions.
+2026-09-11	eval	Attention rollout on 200 val images. 71% jawline. 10% corners.
