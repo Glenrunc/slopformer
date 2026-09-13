@@ -191,3 +191,4 @@ date	kind	entry
 2026-09-10	admin	Meeting. No decisions.
 2026-09-11	eval	Attention rollout on 200 val images. 71% jawline. 10% corners.
 2026-09-12	train	large/16 g=0.70 seed=1337 step=19000 top1=85.17
+2026-09-13	eval	Told A about the watermark. A said to put it in the limitations.
