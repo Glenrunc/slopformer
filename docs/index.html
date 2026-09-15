@@ -1,0 +1,852 @@
+<title>Slopformer</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --ground:#FAF8FC;
+    --surface:#FFFFFF;
+    --surface-2:#F3F0F8;
+    --ink:#171320;
+    --ink-2:#5B5468;
+    --ink-3:#8A8399;
+    --rule:#E3DEEC;
+    --rule-strong:#CFC7DE;
+    --accent:#6A38C4;
+    --accent-ink:#FFFFFF;
+    --accent-soft:#F0E9FC;
+    --teal:#0F7A84;
+    --amber:#B4700A;
+    --alarm:#B93E12;
+    --shadow:0 1px 2px rgba(23,19,32,.05), 0 8px 24px -12px rgba(23,19,32,.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#131019;
+      --surface:#1B1724;
+      --surface-2:#241F31;
+      --ink:#ECE8F4;
+      --ink-2:#A79EBA;
+      --ink-3:#7D7490;
+      --rule:#2E2839;
+      --rule-strong:#413952;
+      --accent:#B896F5;
+      --accent-ink:#1B1724;
+      --accent-soft:#2A2139;
+      --teal:#4FC7D1;
+      --amber:#E2A33F;
+      --alarm:#F08055;
+      --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#131019;
+    --surface:#1B1724;
+    --surface-2:#241F31;
+    --ink:#ECE8F4;
+    --ink-2:#A79EBA;
+    --ink-3:#7D7490;
+    --rule:#2E2839;
+    --rule-strong:#413952;
+    --accent:#B896F5;
+    --accent-ink:#1B1724;
+    --accent-soft:#2A2139;
+    --teal:#4FC7D1;
+    --amber:#E2A33F;
+    --alarm:#F08055;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    background:var(--ground);
+    color:var(--ink);
+    font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent)}
+  img{display:block}
+  h1,h2,h3{text-wrap:balance;margin:0}
+
+  .wrap{max-width:1060px;margin:0 auto;padding-inline:20px}
+  .narrow{max-width:700px;margin-inline:auto}
+
+  /* ---------- nav ---------- */
+  nav{
+    position:sticky;top:env(safe-area-inset-top,0px);z-index:40;
+    background:color-mix(in srgb, var(--ground) 88%, transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--rule);
+  }
+  .navrow{display:flex;align-items:center;gap:22px;height:50px;overflow-x:auto;scrollbar-width:none}
+  .navrow::-webkit-scrollbar{display:none}
+  .navbrand{font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600;letter-spacing:.02em;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .navrow a.nl{font-size:13px;color:var(--ink-2);text-decoration:none;white-space:nowrap}
+  .navrow a.nl:hover{color:var(--accent)}
+  .navspace{flex:1}
+
+  /* ---------- hero ---------- */
+  header{padding-block:56px 40px;text-align:center;border-bottom:1px solid var(--rule)}
+  .venue{
+    font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink-3);margin-bottom:22px;
+  }
+  h1{
+    font-family:Newsreader,Georgia,serif;font-weight:500;
+    font-size:clamp(30px,5.4vw,52px);line-height:1.1;letter-spacing:-.015em;
+    max-width:17ch;margin-inline:auto;
+  }
+  h1 em{font-style:italic;color:var(--accent)}
+  .authors{margin-top:26px;font-size:16px;line-height:2;max-width:640px;margin-inline:auto}
+  .authors sup{font-size:11px;color:var(--ink-3)}
+  .affil{margin-top:10px;font-size:13.5px;color:var(--ink-2);line-height:1.9;max-width:640px;margin-inline:auto}
+  .affil sup{color:var(--ink-3)}
+  .eqc{margin-top:12px;font-size:12px;color:var(--ink-3);font-style:italic}
+
+  .btnrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-top:30px}
+  .btn{
+    display:inline-flex;align-items:center;gap:7px;
+    padding:9px 16px;border-radius:999px;border:1px solid var(--rule-strong);
+    background:var(--surface);color:var(--ink);
+    font-size:13.5px;font-weight:500;text-decoration:none;cursor:pointer;
+    font-family:inherit;transition:border-color .15s, color .15s, transform .1s;
+  }
+  .btn:hover{border-color:var(--accent);color:var(--accent)}
+  .btn:active{transform:translateY(1px)}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+  .btn.primary:hover{color:var(--accent-ink);opacity:.9}
+  .btn .ico{font-family:"IBM Plex Mono",monospace;font-size:11px;opacity:.65}
+  .btn.dead{color:var(--ink-3)}
+  .btn.dead .ico{text-decoration:line-through}
+
+  .stats{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:0;margin-top:34px;
+    font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-2);
+  }
+  .stats span{padding:0 14px;border-left:1px solid var(--rule)}
+  .stats span:first-child{border-left:0}
+  .stats b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+
+  /* ---------- sections ---------- */
+  section{padding-block:52px;border-bottom:1px solid var(--rule)}
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--accent);margin-bottom:14px;
+  }
+  h2{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:29px;letter-spacing:-.01em;margin-bottom:8px}
+  .lede{color:var(--ink-2);font-size:15px;margin-bottom:26px;max-width:62ch}
+  .abstract p{font-family:Newsreader,Georgia,serif;font-size:18.5px;line-height:1.66;color:var(--ink);margin:0}
+  .abstract p + p{margin-top:16px}
+  .abstract .tk{font-family:"IBM Plex Mono",monospace;font-size:.82em;color:var(--accent)}
+
+  /* ---------- demo ---------- */
+  .demo{
+    background:var(--surface);border:1px solid var(--rule-strong);border-radius:14px;
+    box-shadow:var(--shadow);overflow:hidden;
+  }
+  .demohead{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    padding:12px 16px;border-bottom:1px solid var(--rule);background:var(--surface-2);
+    font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-2);
+  }
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);flex:none}
+  .demohead .sp{flex:1}
+  .demobody{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:0}
+  @media (max-width:720px){.demobody{grid-template-columns:minmax(0,1fr)}}
+
+  .stage{padding:18px;border-right:1px solid var(--rule);display:flex;flex-direction:column;gap:14px}
+  @media (max-width:720px){.stage{border-right:0;border-bottom:1px solid var(--rule)}}
+  .canvas{
+    position:relative;width:100%;aspect-ratio:1;max-width:100%;
+    background:var(--surface-2);border-radius:9px;overflow:hidden;
+    border:1px solid var(--rule);
+  }
+  .canvas img{width:100%;height:100%;object-fit:cover}
+  .scrim{position:absolute;inset:0;background:#0C0A12;opacity:0;transition:opacity .28s;pointer-events:none}
+  .canvas.att .scrim{opacity:.68}
+  .blobs{position:absolute;inset:0;opacity:0;transition:opacity .28s;pointer-events:none}
+  .canvas.att .blobs{opacity:1}
+  .blob{position:absolute;border-radius:50%;transform:translate(-50%,-50%);filter:blur(5px)}
+  .gridlines{position:absolute;inset:0;pointer-events:none;opacity:.55}
+  .gridlines i{position:absolute;background:#fff;opacity:.5}
+  .patchflash{position:absolute;inset:0;pointer-events:none;opacity:0}
+  .patchflash.on{animation:sweep .7s ease-out}
+  @keyframes sweep{0%{opacity:0}30%{opacity:1}100%{opacity:0}}
+
+  .samples{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+  .samples button{
+    padding:0;border:2px solid transparent;border-radius:7px;overflow:hidden;
+    cursor:pointer;background:none;aspect-ratio:1;line-height:0;
+    transition:border-color .12s, opacity .12s;opacity:.72;
+  }
+  .samples button:hover{opacity:1}
+  .samples button[aria-pressed="true"]{border-color:var(--accent);opacity:1}
+  .samples img{width:100%;height:100%;object-fit:cover}
+
+  .dropzone{
+    border:1px dashed var(--rule-strong);border-radius:8px;padding:11px;text-align:center;
+    font-size:12.5px;color:var(--ink-3);cursor:pointer;transition:border-color .15s,color .15s;
+  }
+  .dropzone:hover,.dropzone.over{border-color:var(--accent);color:var(--accent)}
+
+  .readout{padding:18px;display:flex;flex-direction:column;gap:16px;min-width:0}
+  .statusline{
+    font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-3);
+    min-height:17px;display:flex;align-items:center;gap:8px;
+  }
+  .statusline .bar{flex:1;height:2px;background:var(--rule);border-radius:2px;overflow:hidden}
+  .statusline .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .18s linear}
+
+  .top1{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .top1 .lbl{font-family:Newsreader,Georgia,serif;font-size:30px;font-weight:600;letter-spacing:-.01em;line-height:1.15}
+  .top1 .p{font-family:"IBM Plex Mono",monospace;font-size:15px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+  .flag{
+    display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10px;
+    letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:4px;
+    background:var(--accent-soft);color:var(--accent);
+  }
+  .flag.warn{background:color-mix(in srgb,var(--alarm) 14%,transparent);color:var(--alarm)}
+
+  .bars{display:flex;flex-direction:column;gap:9px}
+  .row{display:grid;grid-template-columns:minmax(88px,auto) 1fr 44px;gap:10px;align-items:center;font-size:12.5px}
+  .row .cls{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .row.hot .cls{color:var(--ink);font-weight:600}
+  .track{height:9px;background:var(--surface-2);border-radius:5px;overflow:hidden}
+  .track i{display:block;height:100%;background:var(--rule-strong);border-radius:5px;transition:width .4s cubic-bezier(.2,.8,.3,1)}
+  .row.hot .track i{background:var(--accent)}
+  .row.ghost .cls{color:var(--alarm);font-style:italic}
+  .row.ghost .track i{background:var(--alarm)}
+  .row .pv{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-2);text-align:right;font-variant-numeric:tabular-nums}
+
+  .controls{border-top:1px solid var(--rule);padding-top:15px;display:flex;flex-direction:column;gap:12px}
+  .ctlrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .ctlrow label{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-2);white-space:nowrap}
+  input[type="range"]{flex:1;min-width:120px;accent-color:var(--accent)}
+  .gval{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink);font-variant-numeric:tabular-nums;min-width:30px;text-align:right}
+  .toggle{
+    display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink-2);cursor:pointer;
+  }
+  .toggle input{accent-color:var(--accent);margin:0}
+  .note{font-size:12px;color:var(--ink-3);line-height:1.5;min-height:34px}
+  .note b{color:var(--amber);font-weight:600}
+  .note.alarm b{color:var(--alarm)}
+
+  /* ---------- method ---------- */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px}
+  .card h3{font-size:16px;font-weight:600;margin-bottom:7px}
+  .card p{font-size:14px;color:var(--ink-2);margin:0}
+  .eq{
+    font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink);
+    background:var(--surface-2);border-left:2px solid var(--accent);
+    padding:9px 12px;border-radius:0 6px 6px 0;margin:10px 0;overflow-x:auto;white-space:nowrap;
+  }
+
+  /* ---------- table ---------- */
+  .tscroll{overflow-x:auto;border:1px solid var(--rule);border-radius:10px;background:var(--surface)}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:600px}
+  th,td{padding:9px 14px;text-align:right;white-space:nowrap}
+  th:first-child,td:first-child{text-align:left}
+  thead th{
+    font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;
+    color:var(--ink-3);font-weight:500;border-bottom:1px solid var(--rule-strong);
+  }
+  tbody td{border-bottom:1px solid var(--rule);font-variant-numeric:tabular-nums;color:var(--ink-2)}
+  tbody tr:last-child td{border-bottom:0}
+  tbody tr.best td{background:var(--accent-soft);color:var(--ink);font-weight:600}
+  tbody tr.sep td{border-top:1px solid var(--rule-strong)}
+  td.name{color:var(--ink);white-space:normal}
+  .tcap{font-size:12px;color:var(--ink-3);margin-top:12px;line-height:1.55}
+
+  /* ---------- gallery ---------- */
+  .gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:12px}
+  .gal figure{margin:0}
+  .gal img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;border:1px solid var(--rule)}
+  .gal figcaption{
+    font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--ink-3);margin-top:7px;text-align:center;
+  }
+
+  /* ---------- reviews ---------- */
+  .revs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+  .rev{border-top:2px solid var(--rule-strong);padding-top:14px}
+  .rev.r2{border-top-color:var(--alarm)}
+  .rev.r1{border-top-color:var(--teal)}
+  .revhead{display:flex;align-items:baseline;gap:9px;margin-bottom:9px;flex-wrap:wrap}
+  .revhead .who{font-size:13px;font-weight:600}
+  .revhead .score{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3)}
+  .rev blockquote{margin:0;font-family:Newsreader,Georgia,serif;font-size:15.5px;line-height:1.6;color:var(--ink-2)}
+
+  /* ---------- bibtex ---------- */
+  .bibwrap{position:relative}
+  pre{
+    margin:0;background:var(--surface);border:1px solid var(--rule);border-radius:10px;
+    padding:18px;overflow-x:auto;font-family:"IBM Plex Mono",monospace;font-size:12.5px;
+    line-height:1.65;color:var(--ink-2);
+  }
+  pre .k{color:var(--accent)}
+  .copy{position:absolute;top:10px;right:10px}
+
+  footer{padding-block:38px 56px;font-size:12.5px;color:var(--ink-3);line-height:1.7}
+  footer a{color:var(--ink-2)}
+  .fineprint{max-width:64ch}
+  .fineprint strong{color:var(--ink-2);font-weight:600}
+
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  }
+</style>
+
+<nav>
+  <div class="wrap navrow">
+    <a class="navbrand" href="#top">SLOPFORMER</a>
+    <div class="navspace"></div>
+    <a class="nl" href="#abstract">Abstract</a>
+    <a class="nl" href="#demo">Demo</a>
+    <a class="nl" href="#method">Method</a>
+    <a class="nl" href="#results">Results</a>
+    <a class="nl" href="#reviews">Reviews</a>
+    <a class="nl" href="#bibtex">BibTeX</a>
+  </div>
+</nav>
+
+<div id="top" class="wrap">
+  <header>
+    <div class="venue">Preprint &nbsp;·&nbsp; Under review at a conference that has not yet been invented</div>
+    <h1>An Image is Worth 16×16 <em>Brainrots</em></h1>
+    <div class="authors">
+      Albano “Morbin’ Time” Morini<sup>1,2,*</sup> &nbsp;
+      Matteo Pourcinelli Porcino<sup>1,3,*</sup> &nbsp;
+      Viktorini Kretzini Bananini<sup>2,4,*†</sup><br>
+      Bombardiro Crocodilo<sup>3</sup> &nbsp;
+      Ohio W. Doskibidiskiy<sup>1,5</sup> &nbsp;
+      <i>et al.</i><sup>?</sup>
+    </div>
+    <div class="affil">
+      <sup>1</sup>Ohio Institute of Technology &nbsp; <sup>2</sup>DeepSlop Research &nbsp;
+      <sup>3</sup>Università degli Studi di Brainrot<br>
+      <sup>4</sup>Grindset Labs &nbsp; <sup>5</sup>Skibidi AI
+    </div>
+    <div class="eqc">*Equal contribution. Author order determined by one round of rock-paper-scissors, best of one.</div>
+
+    <div class="btnrow">
+      <a class="btn primary" href="slopformer.pdf" target="_blank" rel="noopener"><span class="ico">PDF</span> Paper</a>
+      <a class="btn" href="https://arxiv.org/abs/2609.16016" target="_blank" rel="noopener"><span class="ico">arXiv</span> 2609.16016</a>
+      <button class="btn dead" id="codeBtn"><span class="ico">GH</span> Code</button>
+      <a class="btn" href="#demo"><span class="ico">▶</span> Demo</a>
+      <a class="btn" href="#bibtex"><span class="ico">{ }</span> BibTeX</a>
+    </div>
+
+    <div class="stats">
+      <span><b>94.7%</b> ImageNet-BR</span>
+      <span><b>6.1B</b> params</span>
+      <span><b>2.5k</b> TPU-days</span>
+      <span><b>0</b> citations</span>
+    </div>
+  </header>
+
+  <section id="abstract" class="abstract">
+    <div class="narrow">
+      <div class="eyebrow">Abstract</div>
+      <p>While the Transformer architecture has become the de facto standard for natural
+      language tasks, its applications to computer vision remain limited by an outdated
+      assumption: that images depict <i>things</i>. We challenge this assumption. We show
+      that a pure transformer applied directly to sequences of image patches can perform
+      very well on image classification tasks, provided that the images themselves are
+      sufficiently unhinged.</p>
+      <p>We introduce the <span class="tk">Slopformer</span>, a vision transformer in which
+      every inductive bias historically supplied by convolution is instead supplied by
+      <i>brainrot</i>: a learned, high-entropy, semantically bankrupt prior harvested from
+      14.7 million short-form video thumbnails. Our largest model attains 94.7% top-1 on
+      ImageNet-BR and, more importantly, 99.2% on the auxiliary task of identifying which
+      of two images is “more Ohio.” We further observe a novel emergent capability we term
+      <i>delulu generalization</i>, in which the model confidently classifies images
+      belonging to no class whatsoever.</p>
+    </div>
+  </section>
+
+  <section id="demo">
+    <div class="eyebrow">Interactive demo</div>
+    <h2>Run Slopformer-Sigma/16</h2>
+    <p class="lede">Pick a validation image or drop in your own. Inference runs in your
+    browser. The cringe strength γ is the one hyperparameter we expose, because it is the
+    only one whose effect we can explain.</p>
+
+    <div class="demo">
+      <div class="demohead">
+        <span class="dot"></span>
+        <span>slopformer-sigma/16 · 6.1B · fp16</span>
+        <span class="sp"></span>
+        <span id="latency">—</span>
+      </div>
+      <div class="demobody">
+        <div class="stage">
+          <div class="canvas" id="canvas">
+            <img id="mainImg" src="images/sigma.jpg" alt="Input image currently being classified">
+            <div class="gridlines" id="gridlines"></div>
+            <div class="scrim"></div>
+            <div class="blobs" id="blobs"></div>
+          </div>
+          <div class="samples" id="samples"></div>
+          <div class="dropzone" id="dropzone" role="button" tabindex="0">
+            Drop an image here — or click to choose one
+          </div>
+          <input type="file" id="fileInput" accept="image/*" hidden>
+        </div>
+
+        <div class="readout">
+          <div class="statusline">
+            <span id="statusTxt">ready</span>
+            <span class="bar"><i id="statusBar"></i></span>
+          </div>
+
+          <div>
+            <div class="top1">
+              <span class="lbl" id="top1lbl">SIGMA</span>
+              <span class="p" id="top1p">p = 0.91</span>
+            </div>
+            <div style="margin-top:8px"><span class="flag" id="top1flag">in-distribution</span></div>
+          </div>
+
+          <div class="bars" id="bars"></div>
+
+          <div class="controls">
+            <div class="ctlrow">
+              <label for="gamma">cringe strength γ</label>
+              <input type="range" id="gamma" min="0" max="9" step="0.1" value="1.4">
+              <span class="gval" id="gval">1.4</span>
+            </div>
+            <div class="ctlrow">
+              <label class="toggle" for="attn"><input type="checkbox" id="attn"> attention rollout</label>
+              <span class="navspace"></span>
+              <button class="btn" id="resetBtn" style="padding:5px 12px;font-size:12px">reset γ</button>
+            </div>
+            <p class="note" id="note"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="method">
+    <div class="eyebrow">Method</div>
+    <h2>Three changes to a standard encoder</h2>
+    <p class="lede">We follow the original Transformer as closely as possible, which is
+    convenient, because we did not write any of the code ourselves.</p>
+    <div class="cards">
+      <div class="card">
+        <h3>Skibidi positional encodings</h3>
+        <div class="eq">SPE(t, 2i) = sin(t / 10000^(2i/D)) · β<sub>t</sub></div>
+        <p>The standard sinusoidal encoding with the sign of every second position flipped
+        at random, re-sampled each forward pass. It carries, in expectation, no positional
+        information whatsoever. It improves top-1 by 2.3 points.</p>
+      </div>
+      <div class="card">
+        <h3>Multi-head cringe attention</h3>
+        <div class="eq">cringemax(a)<sub>j</sub> ∝ exp(a<sub>j</sub>/τ) · (1 + γ·‖v<sub>j</sub> − v̄‖₂)</div>
+        <p>The softmax, reweighted by each token's distance from the consensus — its
+        <i>cringe</i>. Setting γ = 0 recovers ordinary attention and, in our experience,
+        ordinary results. Move the slider above to see the rest.</p>
+      </div>
+      <div class="card">
+        <h3>Slop injection</h3>
+        <div class="eq">z<sub>ℓ</sub> = MLP(LN(z′<sub>ℓ</sub>)) + z′<sub>ℓ</sub> + σ·ε<sub>ℓ</sub></div>
+        <p>Gaussian noise added to every residual stream at every layer. It is not a
+        regularizer and it does not improve validation loss. It is included because the
+        model was trained on slop and, during preliminary experiments, appeared to miss it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="results">
+    <div class="eyebrow">Results</div>
+    <h2>Transfer accuracy</h2>
+    <p class="lede">Top-1 (%) after pre-training on JFT-300B. Ohio-Discrimination is the
+    auxiliary task of deciding which of two images is “more Ohio.”</p>
+    <div class="tscroll">
+      <table>
+        <thead>
+          <tr><th>Model</th><th>ImageNet-BR</th><th>CIFAR-Ohio</th><th>RIZZ-1K</th><th>Gyatt-VQA</th><th>Ohio-Disc.</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="name">ResNet-152x4 (BiT-L)</td><td>87.5</td><td>93.1</td><td>61.4</td><td>48.9</td><td>52.0</td></tr>
+          <tr><td class="name">Convolutional NPC</td><td>85.2</td><td>91.7</td><td>58.8</td><td>45.1</td><td>50.4</td></tr>
+          <tr><td class="name">Jawline-CNN</td><td>86.9</td><td>92.4</td><td>71.2</td><td>47.7</td><td>55.8</td></tr>
+          <tr class="sep"><td class="name">Slopformer-Base/16</td><td>84.3</td><td>90.2</td><td>66.7</td><td>51.2</td><td>71.9</td></tr>
+          <tr><td class="name">Slopformer-Large/16</td><td>90.8</td><td>94.9</td><td>74.1</td><td>60.3</td><td>88.4</td></tr>
+          <tr><td class="name">Slopformer-Huge/14</td><td>93.2</td><td>96.1</td><td>79.6</td><td>66.8</td><td>95.7</td></tr>
+          <tr class="best"><td class="name">Slopformer-Sigma/16</td><td>94.7</td><td>97.3</td><td>83.0</td><td>71.4</td><td>99.2</td></tr>
+          <tr class="sep"><td class="name">Human (median, n=12)</td><td>71.0</td><td>88.4</td><td>94.8</td><td>91.0</td><td>51.2</td></tr>
+          <tr><td class="name">Human (one specific undergraduate)</td><td>69.8</td><td>86.0</td><td>99.7</td><td>88.2</td><td>99.4</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tcap">Jawline-CNN scores anomalously well on RIZZ-1K because RIZZ-1K is, on
+    inspection, 94% jawlines. The final row reports a single participant who declined to be
+    named, declined payment, and asked only that we “keep the dataset coming.”</p>
+  </section>
+
+  <section id="data">
+    <div class="eyebrow">Dataset</div>
+    <h2>ImageNet-BR</h2>
+    <p class="lede">14.7M images, 1,001 classes, every label assigned by a 19-year-old at
+    3 AM. Samples below were drawn uniformly at random and are not cherry-picked; the
+    corpus looks like this throughout.</p>
+    <div class="gal" id="gallery"></div>
+  </section>
+
+  <section id="reviews">
+    <div class="eyebrow">Peer review</div>
+    <h2>Reviewer comments</h2>
+    <p class="lede">Reproduced with permission from the previous submission.</p>
+    <div class="revs">
+      <div class="rev r1">
+        <div class="revhead"><span class="who">Reviewer #1</span><span class="score">8 · Accept · conf. 1/5</span></div>
+        <blockquote>“I did not understand Section 3.3 and I am not going to pretend
+        otherwise. My only concern is that I do not know what a brainrot is, and the paper
+        does not define it, and I have read it four times.”</blockquote>
+      </div>
+      <div class="rev r2">
+        <div class="revhead"><span class="who">Reviewer #2</span><span class="score">1 · Strong reject · conf. 5/5</span></div>
+        <blockquote>“The central claim is that removing structure from a model improves it.
+        This is not a finding; it is a description of what happened. The Broader Impact
+        section contains the sentence ‘the principal risk is that the model is used as
+        intended.’ It is the only sentence in this submission I agree with.”</blockquote>
+      </div>
+      <div class="rev">
+        <div class="revhead"><span class="who">Reviewer #3</span><span class="score">6 · Weak accept · conf. 3/5</span></div>
+        <blockquote>“The authors keep a component whose ablation shows no effect, with a
+        footnote. I went back and forth on whether this is a serious methodological problem
+        or the most honest paragraph I have read in this venue. I have settled on both.”</blockquote>
+      </div>
+    </div>
+  </section>
+
+  <section id="bibtex">
+    <div class="eyebrow">Citation</div>
+    <h2>BibTeX</h2>
+    <p class="lede">Please do not.</p>
+    <div class="bibwrap">
+      <button class="btn copy" id="copyBtn" style="padding:5px 12px;font-size:12px">Copy</button>
+      <pre id="bibtex"><span class="k">@inproceedings</span>{morini2026image,
+  title     = {An Image is Worth 16x16 Brainrots:
+               Introducing the Slopformer Architecture},
+  author    = {Morini, Albano and Pourcinelli Porcino, Matteo
+               and Kretzini Bananini, Viktorini and Crocodilo,
+               Bombardiro and Doskibidiskiy, Ohio W.},
+  booktitle = {Proceedings of a Conference That Has Not Yet
+               Been Invented},
+  pages     = {1--13},
+  year      = {2026},
+  note      = {Reviewer 2 dissenting.}
+}</pre>
+    </div>
+  </section>
+
+  <footer>
+    <p class="fineprint">
+      <strong>This page is a joke.</strong> The Slopformer does not exist. The authors,
+      institutions, datasets, benchmarks, numbers, citations and peer reviews in the paper
+      are all fabricated. The demo above contains no neural network — it is about ninety
+      lines of JavaScript that returns a confident answer, which we concede is a fair
+      description of some real systems.
+    </p>
+    <p class="fineprint" style="margin-top:14px">
+      Dataset images are public-domain works from Wikimedia Commons, plus a handful of
+      internet images of unrecoverable provenance. Full credits are in Appendix E of the
+      <a href="slopformer.pdf" target="_blank" rel="noopener">paper</a>.
+    </p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var SAMPLES = [
+    { id:"sigma", src:"images/sigma.jpg", gt:"sigma",
+      preds:[["sigma",.91],["mewing",.04],["npc",.02],["ohio",.02],["slop",.01]],
+      blobs:[[36,58,15,"amber"],[28,33,8,"amber"],[43,33,8,"amber"],[68,62,10,"teal"]],
+      att:"attends to the jawline and the beverage" },
+    { id:"ohio", src:"images/ohio.jpg", gt:"ohio",
+      preds:[["ohio",1.00],["slop",.00],["tralalero",.00],["sus",.00],["npc",.00]],
+      blobs:[[20,66,16,"teal"],[31,57,10,"teal"],[90,12,6,"amber"]],
+      att:"attends to the trunk, twice" },
+    { id:"damage", src:"images/damage.jpg", gt:"emot. damage",
+      preds:[["ohio",.99],["emot. damage",.01],["sigma",.00],["sus",.00],["rizz",.00]],
+      blobs:[[35,42,13,"amber"],[63,42,13,"amber"],[48,71,11,"amber"]],
+      att:"attends to both eyes and the mouth, ignores the label" },
+    { id:"sus", src:"images/sus.jpg", gt:"sus",
+      preds:[["sus",.64],["backrooms",.21],["npc",.08],["rizz",.05],["slop",.02]],
+      blobs:[[56,38,14,"teal"],[29,30,9,"teal"]],
+      att:"attends to the side-eye, correctly" },
+    { id:"npc", src:"images/npc.jpg", gt:"npc",
+      preds:[["npc",.55],["grimace shake",.31],["ohio",.09],["gyatt",.03],["slop",.02]],
+      blobs:[[50,10,17,"amber"],[50,88,17,"amber"]],
+      att:"attends only to the caption, not the subject" },
+    { id:"slop1", src:"images/slop1.jpg", gt:"slop",
+      preds:[["slop",.88],["ohio",.07],["emot. damage",.03],["sigma",.01],["npc",.01]],
+      blobs:[[12,12,11,"alarm"],[88,12,11,"alarm"],[12,88,11,"alarm"],[88,88,11,"alarm"]],
+      att:"attends only to the four corners (watermark)" },
+    { id:"tralalero", src:"images/tralalero.jpg", gt:"tralalero",
+      preds:[["tralalero",.42],["skibidi",.29],["slop",.16],["ohio",.09],["sus",.04]],
+      blobs:[[35,50,11,"amber"],[50,52,12,"amber"],[65,50,11,"amber"]],
+      att:"attends to where the footwear would be" },
+    { id:"gyatt", src:"images/gyatt.jpg", gt:"gyatt",
+      preds:[["ohio",.91],["gyatt",.06],["npc",.02],["slop",.01],["sigma",.00]],
+      blobs:[[50,18,14,"amber"],[15,45,8,"teal"],[85,45,8,"teal"]],
+      att:"attends to the hair, then stops" }
+  ];
+
+  var GALLERY = [
+    ["images/sigma.jpg","sigma"],["images/skibidi.jpg","skibidi"],["images/sus.jpg","sus"],
+    ["images/damage.jpg","emot. damage"],["images/ohio.jpg","ohio"],["images/npc.jpg","npc"],
+    ["images/mewing.jpg","mewing"],["images/gyatt.jpg","gyatt"],["images/tralalero.jpg","tralalero"],
+    ["images/bombardiro.jpg","bombardiro"],["images/slop1.jpg","slop"]
+  ];
+
+  var INVENTED = ["grimace shake","backrooms","ohio (again)","glizzy","unnamed","[redacted]"];
+  var BLOBCOL = { amber:"#E2A33F", teal:"#3FC3CE", alarm:"#E2533F" };
+
+  var $ = function(id){ return document.getElementById(id); };
+  var canvas=$("canvas"), mainImg=$("mainImg"), blobsEl=$("blobs"), gridEl=$("gridlines"),
+      barsEl=$("bars"), noteEl=$("note"), statusTxt=$("statusTxt"), statusBar=$("statusBar"),
+      gammaEl=$("gamma"), gvalEl=$("gval"), attnEl=$("attn"), latencyEl=$("latency"),
+      top1lbl=$("top1lbl"), top1p=$("top1p"), top1flag=$("top1flag");
+
+  var current = SAMPLES[0];
+  var busy = false;
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- grid overlay (16x16 brainrots, shown as 4x4) ---------- */
+  for (var g=1; g<4; g++){
+    var v=document.createElement("i");
+    v.style.cssText="left:"+(g*25)+"%;top:0;width:1px;height:100%";
+    gridEl.appendChild(v);
+    var h=document.createElement("i");
+    h.style.cssText="top:"+(g*25)+"%;left:0;height:1px;width:100%";
+    gridEl.appendChild(h);
+  }
+
+  /* ---------- sample strip ---------- */
+  var strip = $("samples");
+  SAMPLES.forEach(function(s,i){
+    var b=document.createElement("button");
+    b.type="button";
+    b.setAttribute("aria-pressed", i===0 ? "true":"false");
+    b.setAttribute("aria-label","Classify sample: "+s.gt);
+    var im=document.createElement("img");
+    im.src=s.src; im.alt=""; im.loading="lazy";
+    b.appendChild(im);
+    b.addEventListener("click", function(){ select(s, b); });
+    strip.appendChild(b);
+  });
+
+  /* ---------- gallery ---------- */
+  var gal=$("gallery");
+  GALLERY.forEach(function(p){
+    var f=document.createElement("figure");
+    var im=document.createElement("img");
+    im.src=p[0]; im.alt="ImageNet-BR sample from class "+p[1]; im.loading="lazy";
+    var c=document.createElement("figcaption"); c.textContent=p[1];
+    f.appendChild(im); f.appendChild(c); gal.appendChild(f);
+  });
+
+  /* ---------- probability model ---------- */
+  function distribution(preds, gamma){
+    var scale = 0.55 + 0.32*gamma;              // gamma=1.4 -> 1.0
+    var items = preds.map(function(p){
+      return { cls:p[0], logit: Math.log(Math.max(p[1], 1e-4)) * scale };
+    });
+    if (gamma > 5){                              // the model collapses onto Ohio
+      var bias = (gamma-5)*1.35;
+      var found = false;
+      items.forEach(function(it){ if(it.cls==="ohio"){ it.logit += bias; found=true; } });
+      if(!found) items.push({cls:"ohio", logit: Math.log(0.02)*scale + bias});
+    }
+    var max = Math.max.apply(null, items.map(function(i){return i.logit;}));
+    var sum = 0;
+    items.forEach(function(it){ it.w = Math.exp(it.logit-max); sum += it.w; });
+    items.forEach(function(it){ it.p = it.w/sum; });
+    items.sort(function(a,b){ return b.p-a.p; });
+    return items.slice(0,5);
+  }
+
+  function render(){
+    var gamma = parseFloat(gammaEl.value);
+    var dist = distribution(current.preds, gamma);
+    var top = dist[0];
+
+    top1lbl.textContent = top.cls.toUpperCase();
+    top1p.textContent = "p = " + top.p.toFixed(2);
+
+    var invented = INVENTED.indexOf(top.cls) !== -1;
+    var wrong = !invented && current.gt && top.cls !== current.gt;
+    top1flag.className = "flag" + ((invented||wrong||gamma>5) ? " warn" : "");
+    top1flag.textContent = current.ood ? "out of distribution"
+      : invented ? "class does not exist"
+      : gamma > 5 ? "delulu regime"
+      : wrong ? "ground truth: " + current.gt
+      : "in-distribution";
+
+    barsEl.textContent = "";
+    dist.forEach(function(d,i){
+      var row=document.createElement("div");
+      row.className="row" + (i===0?" hot":"") + (INVENTED.indexOf(d.cls)!==-1?" ghost":"");
+      var cls=document.createElement("span"); cls.className="cls"; cls.textContent=d.cls;
+      var tr=document.createElement("span"); tr.className="track";
+      var fill=document.createElement("i"); fill.style.width="0%";
+      tr.appendChild(fill);
+      var pv=document.createElement("span"); pv.className="pv"; pv.textContent=d.p.toFixed(2);
+      row.appendChild(cls); row.appendChild(tr); row.appendChild(pv);
+      barsEl.appendChild(row);
+      requestAnimationFrame(function(){ fill.style.width = Math.max(d.p*100, 1) + "%"; });
+    });
+
+    latencyEl.textContent = Math.round(38 + gamma*9.4) + " ms · yap rate " + Math.round(3 + gamma*26);
+
+    noteEl.className = "note";
+    if (gamma < 0.25){
+      noteEl.innerHTML = "<b>γ = 0: cringemax disabled.</b> This is ordinary scaled dot-product attention. Top-1 drops 3.6 points and the posterior flattens into something a reviewer would call well-calibrated.";
+    } else if (gamma > 6){
+      noteEl.className = "note alarm";
+      noteEl.innerHTML = "<b>Delulu regime.</b> At γ = 9.0 accuracy collapses to 61.3% (Table 3). The model answers OHIO for everything, at increasing confidence, and stops explaining itself.";
+    } else if (gamma > 2.6){
+      noteEl.innerHTML = "<b>Above the tuned value.</b> Attention is now dominated by whichever tokens are furthest from the consensus, which is usually the watermark.";
+    } else {
+      noteEl.innerHTML = "Tuned value γ = 1.4, selected on the validation split. Table 3 reports every other value we tried and one we did not.";
+    }
+  }
+
+  function paintBlobs(){
+    blobsEl.textContent = "";
+    (current.blobs||[]).forEach(function(b){
+      var d=document.createElement("span");
+      d.className="blob";
+      var size = b[2]*2;
+      d.style.left=b[0]+"%"; d.style.top=b[1]+"%";
+      d.style.width=size+"%"; d.style.paddingBottom=size+"%";
+      d.style.background=BLOBCOL[b[3]]||BLOBCOL.amber;
+      d.style.opacity=".72";
+      blobsEl.appendChild(d);
+    });
+  }
+
+  var STEPS = [
+    "patchifying into 16×16 brainrots",
+    "applying skibidi positional encodings",
+    "computing cringemax",
+    "injecting slop (σ = 0.11)",
+    "yapping"
+  ];
+
+  function run(){
+    if (busy) return;
+    busy = true;
+    var i = 0;
+    var step = function(){
+      if (i >= STEPS.length){
+        statusTxt.textContent = "done";
+        statusBar.style.width = "100%";
+        busy = false;
+        render();
+        setTimeout(function(){ statusBar.style.width = "0%"; }, 500);
+        return;
+      }
+      statusTxt.textContent = STEPS[i];
+      statusBar.style.width = ((i+1)/STEPS.length*100) + "%";
+      i++;
+      setTimeout(step, reduced ? 20 : 170);
+    };
+    step();
+  }
+
+  function select(sample, btn){
+    current = sample;
+    mainImg.src = sample.src;
+    mainImg.alt = "Input image: " + (sample.gt || "uploaded image");
+    Array.prototype.forEach.call(strip.children, function(b){
+      b.setAttribute("aria-pressed", b === btn ? "true" : "false");
+    });
+    paintBlobs();
+    run();
+  }
+
+  /* ---------- upload: everything unseen is Ohio ---------- */
+  function handleFile(file){
+    if (!file || !/^image\//.test(file.type)) return;
+    var rd = new FileReader();
+    rd.onload = function(e){
+      var seed = (file.name.length * 31 + file.size) % INVENTED.length;
+      var invented = INVENTED[seed];
+      select({
+        id:"upload", src:e.target.result, gt:null, ood:true,
+        preds:[["ohio",.97],[invented,.02],["slop",.01],["npc",.00],["sigma",.00]],
+        blobs:[[12,12,11,"alarm"],[88,12,11,"alarm"],[12,88,11,"alarm"],[88,88,11,"alarm"]],
+        att:"attends only to the four corners (watermark)"
+      }, null);
+    };
+    rd.readAsDataURL(file);
+  }
+
+  var dz = $("dropzone"), fi = $("fileInput");
+  dz.addEventListener("click", function(){ fi.click(); });
+  dz.addEventListener("keydown", function(e){
+    if (e.key === "Enter" || e.key === " "){ e.preventDefault(); fi.click(); }
+  });
+  fi.addEventListener("change", function(){ handleFile(fi.files && fi.files[0]); });
+  ["dragenter","dragover"].forEach(function(ev){
+    dz.addEventListener(ev, function(e){ e.preventDefault(); dz.classList.add("over"); });
+  });
+  ["dragleave","drop"].forEach(function(ev){
+    dz.addEventListener(ev, function(e){ e.preventDefault(); dz.classList.remove("over"); });
+  });
+  dz.addEventListener("drop", function(e){
+    if (e.dataTransfer && e.dataTransfer.files) handleFile(e.dataTransfer.files[0]);
+  });
+
+  /* ---------- controls ---------- */
+  gammaEl.addEventListener("input", function(){
+    gvalEl.textContent = parseFloat(gammaEl.value).toFixed(1);
+    render();
+  });
+  $("resetBtn").addEventListener("click", function(){
+    gammaEl.value = "1.4"; gvalEl.textContent = "1.4"; render();
+  });
+  attnEl.addEventListener("change", function(){
+    canvas.classList.toggle("att", attnEl.checked);
+    statusTxt.textContent = attnEl.checked
+      ? "rollout: " + (current.att || "attends only to the four corners")
+      : "ready";
+  });
+
+  /* ---------- dead buttons ---------- */
+  function deadnote(btn, msg){
+    btn.addEventListener("click", function(){
+      var old = btn.innerHTML;
+      btn.innerHTML = msg;
+      btn.disabled = true;
+      setTimeout(function(){ btn.innerHTML = old; btn.disabled = false; }, 2200);
+    });
+  }
+  deadnote($("codeBtn"), "404 — repository not found");
+
+  /* ---------- copy bibtex ---------- */
+  $("copyBtn").addEventListener("click", function(){
+    var t = $("bibtex").textContent;
+    var done = function(){
+      var b = $("copyBtn");
+      b.textContent = "Copied";
+      setTimeout(function(){ b.textContent = "Copy"; }, 1600);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(t).then(done, done);
+    } else { done(); }
+  });
+
+  /* ---------- open at rest, already classified ---------- */
+  paintBlobs();
+  render();
+  statusTxt.textContent = "ready";
+})();
+</script>
