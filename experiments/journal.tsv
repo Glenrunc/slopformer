@@ -194,3 +194,4 @@ date	kind	entry
 2026-09-13	eval	Told A about the watermark. A said to put it in the limitations.
 2026-09-14	train	large/16 g=1.40 seed=1337 step=158000 top1=84.06  # ran overnight, identical to the previous run, investigating
 2026-09-15	eval	Human baseline: 12 undergrads, 71% median. One of them got 99.7%. Asked how. No answer.
+2026-09-16	eval	Re-ran the gamma sweep with a different seed. 1.4 again. Fine.
