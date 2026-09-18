@@ -331,7 +331,7 @@
 
     <div class="btnrow">
       <a class="btn primary" href="slopformer.pdf" target="_blank" rel="noopener"><span class="ico">PDF</span> Paper</a>
-      <a class="btn" href="https://arxiv.org/abs/2609.16016" target="_blank" rel="noopener"><span class="ico">arXiv</span> 2609.16016</a>
+      <button class="btn dead" id="arxivBtn"><span class="ico">arXiv</span> 2609.16016</button>
       <button class="btn dead" id="codeBtn"><span class="ico">GH</span> Code</button>
       <a class="btn" href="#demo"><span class="ico">▶</span> Demo</a>
       <a class="btn" href="#bibtex"><span class="ico">{ }</span> BibTeX</a>
@@ -829,6 +829,7 @@
       setTimeout(function(){ btn.innerHTML = old; btn.disabled = false; }, 2200);
     });
   }
+  deadnote($("arxivBtn"), "withdrawn by moderators");
   deadnote($("codeBtn"), "404 — repository not found");
 
   /* ---------- copy bibtex ---------- */
