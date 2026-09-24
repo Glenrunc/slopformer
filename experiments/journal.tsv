@@ -200,3 +200,4 @@ date	kind	entry
 2026-09-21	admin	Booked the GPU hours. They are gone.
 2026-09-22	train	base/16 g=1.40 seed=0 step=303000 top1=84.38
 2026-09-23	train	large/16 g=1.40 seed=17 step=133000 top1=86.11
+2026-09-24	eval	Human baseline: 12 undergrads, 71% median. One of them got 99.7%. Asked how. No answer.
