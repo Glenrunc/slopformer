@@ -14,7 +14,7 @@ from typing import TYPE_CHECKING
 
 from .labels import BRAINROT_CLASSES, INVENTED_CLASSES, delulu, resolve, to_brainrot
 
-__version__ = "0.4.0"
+__version__ = "0.4.1"
 
 _LAZY = {
     "MultiHeadCringeAttention": "attention",
